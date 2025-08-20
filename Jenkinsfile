@@ -40,7 +40,9 @@ pipeline {
         stage('Plan') {
             steps {
                 echo 'Planning...'
-                sh 'terraform plan -out plan.tfplan'
+                sh """
+                    terraform plan -var "aws_region=${params.AWS_REGION}" -out=plan.tfplan
+                """
                 sh 'terraform show plan.tfplan'
             }
         }
@@ -53,9 +55,7 @@ pipeline {
         stage('Provision of Resources') {
             steps {
                 echo 'Provisioning Resources...'
-                sh """
-                    terraform apply -auto-approve -input=false -var "aws_region=${params.AWS_REGION}"  plan.tfplan
-                """
+                sh 'terraform apply -auto-approve -input=false plan.tfplan'
             }
         }
         stage('Wait for destroy signal') {
