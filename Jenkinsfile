@@ -53,7 +53,7 @@ pipeline {
         stage('Provision of Resources') {
             steps {
                 echo 'Provisioning Resources...'
-                sh 'terraform apply'
+                sh 'terraform apply -auto-approve -input=false plan.tfplan'
             }
         }
         stage('Wait for destroy signal') {
@@ -65,7 +65,7 @@ pipeline {
         stage('Destroy') {
             steps {
                 echo 'Destroying resources...'
-                sh 'terraform destroy'
+                sh 'terraform destroy -auto-approve'
             }
         }
     }
