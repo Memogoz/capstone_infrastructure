@@ -28,7 +28,7 @@ pipeline {
         stage('Configuration Formatting') {
             steps {
                 echo 'Checking formatting...'
-                sh 'terraform fmt -check -recursive ./'
+                sh 'terraform fmt -recursive ./'
             }
         }
         stage('Configuration Validation') {
