@@ -1,16 +1,28 @@
 pipeline {
     agent any
 
-    environment {
-        AWS_REGION = 'us-east-1'
-        S3_BUCKET = 'terraform-state-storage-1234'
+    parameters {
+        string(name: 'S3_BUCKET', defaultValue: 'default-terraform-state-bucket-871964', description: 'Enter the S3 bucket name')
+        string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'Enter the AWS region')
     }
 
     stages {
         stage('S3 bucket creation for state storage') {
             steps {
                 echo "Creating S3 bucket or checking if it already exists..."
-                sh 'aws s3 mb "s3://$S3_BUCKET" --region "$AWS_REGION"'
+                sh """
+                    aws s3 mb "s3://${params.S3_BUCKET}" --region "${params.AWS_REGION}"
+                """
+            }
+        }
+        stage("Backend inicialization") {
+            steps {
+                echo "Initializing backend..."
+                sh """
+                    terraform init \\
+                    -backend-config="bucket=${params.S3_BUCKET}" \\
+                    -backend-config="region=${params.AWS_REGION}"
+                """
             }
         }
         stage('Configuration Formatting') {
