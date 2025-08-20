@@ -9,9 +9,9 @@ terraform {
   required_version = ">= 1.2"
 
   backend "s3" {
-    bucket       = var.bucket_name
+    #bucket       = "" parsed from the terraform init command
     key          = "infrastructure/terraform.tfstate"
-    region       = var.aws_region
+    #region       = "" parsed from the terraform init command
     use_lockfile = true
     encrypt      = true
   }

@@ -53,7 +53,9 @@ pipeline {
         stage('Provision of Resources') {
             steps {
                 echo 'Provisioning Resources...'
-                sh 'terraform apply -auto-approve -input=false plan.tfplan'
+                sh """
+                    terraform apply -auto-approve -input=false -var "aws_region=${params.AWS_REGION}"  plan.tfplan
+                """
             }
         }
         stage('Wait for destroy signal') {
