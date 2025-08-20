@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo "Initializing backend..."
                 sh """
-                    terraform init \\
+                    terraform init -reconfigure \\
                     -backend-config="bucket=${params.S3_BUCKET}" \\
                     -backend-config="region=${params.AWS_REGION}"
                 """
