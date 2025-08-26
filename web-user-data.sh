@@ -4,6 +4,6 @@ apt update
 apt install -y python3
 
 # temporal
-apt install -y httpd
-systemctl enable httpd
-systemctl start http
+apt install -y apache2
+systemctl enable apache2
+systemctl start apache2

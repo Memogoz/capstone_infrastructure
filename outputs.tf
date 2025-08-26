@@ -1,3 +1,3 @@
-/*output "url" {
-  value = aws_lb.alb.dns_name
-}*/
+output "url" {
+  value = module.alb.alb_dns_name
+}

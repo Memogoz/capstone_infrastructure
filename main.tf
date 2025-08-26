@@ -11,7 +11,7 @@ module "network" {
 module "alb" {
   source     = "./modules/alb"
   prefix     = "ggonz-capstone"
-  subnet_ids = module.network.private_subnet_ids
+  subnet_ids = module.network.public_subnet_ids
   vpc_id     = module.network.vpc_id
   alb_sg_ids = [module.network.alb_sg_id]
 }
@@ -35,5 +35,4 @@ module "database" {
   vpc_security_group_ids = [module.network.db_sg_id]
   db_username            = var.db_username
   db_password            = var.db_password
-  multi_az               = true # Enable High Availability
 }

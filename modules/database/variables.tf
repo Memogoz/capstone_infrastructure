@@ -35,9 +35,3 @@ variable "vpc_security_group_ids" {
   type        = list(string)
   description = "A list of VPC security group IDs to associate with the DB instance."
 }
-
-variable "multi_az" {
-  type        = bool
-  description = "Specifies if the database is multi-AZ."
-  default     = false
-}

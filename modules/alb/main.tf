@@ -14,7 +14,8 @@ resource "aws_lb_target_group" "web_tg" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   health_check {
-    path                = "/index.html"
+    protocol            = "HTTP"
+    path                = "/"
     matcher             = "200"
     interval            = 30
     unhealthy_threshold = 3
