@@ -58,6 +58,12 @@ pipeline {
                 sh 'terraform apply -auto-approve -input=false plan.tfplan'
             }
         }
+        stage('Set up nodes with ansible') {
+            steps {
+                echo 'Setting up nodes with Ansible...'
+                sh 'ansible-playbook -i ./Ansible/inventory.yml ./Ansible/docker-setup.yml'
+            }
+        }
         stage('Wait for destroy signal') {
             steps {
                 echo "Waiting for destroy signal"
