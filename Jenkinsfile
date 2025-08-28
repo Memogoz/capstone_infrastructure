@@ -61,7 +61,7 @@ pipeline {
         stage('Set up nodes with ansible') {
             steps {
                 echo 'Setting up nodes with Ansible...'
-                sh 'ansible-playbook -i ./Ansible/inventory.yml ./Ansible/docker-setup.yml'
+                sh 'ansible-playbook -i ./Ansible/inventory.yml ./Ansible/docker-setup.yaml'
             }
         }
         stage('Wait for destroy signal') {

@@ -2,4 +2,5 @@
 .terraform.lock.hcl
 plan.tfplan
 
-/keys
+keys/
+tmp/

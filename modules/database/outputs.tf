@@ -13,3 +13,7 @@ output "rds_username" {
 output "rds_password" {
   value = aws_db_instance.postgres_db.password
 }
+
+output "rds_db_name" {
+  value = aws_db_instance.postgres_db.db_name
+}

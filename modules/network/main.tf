@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 resource "aws_eip" "nat" {
-  domain   = "vpc"
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.igw]
   tags       = { Name = "${var.prefix}-nat-eip" }
 }
@@ -99,7 +99,7 @@ resource "aws_security_group" "alb_sg" { # Allow HTTP and allowed IPs to the loa
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.allowed_cidrs
+    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
     from_port   = 0
@@ -164,8 +164,8 @@ resource "aws_security_group" "db_sg" { # Allow PostgreSQL traffic to web server
 }
 
 resource "aws_security_group" "admin_nodes_sg" { # Allow SSH to admin nodes [MAYBE THIS SG SHOULD BE PREVIUSLY CREATED]
-  name        = "${var.prefix}-builder-sg"
-  description = "Allow HTTP from allowed CIDRs"
+  name        = "${var.prefix}-jenkins-nodes-sg"
+  description = "Allow SSH from admin nodes"
   vpc_id      = aws_vpc.this.id
   ingress {
     from_port   = 22

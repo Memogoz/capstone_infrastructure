@@ -1,7 +1,7 @@
 # modules/compute/main.tf
 resource "aws_key_pair" "web_key" {
   key_name   = "web-instances-key"
-  public_key = file("../keys/web-instances-key.pub")
+  public_key = file("keys/web-instances-key.pub")
 }
 
 resource "aws_launch_template" "web_lt" {
