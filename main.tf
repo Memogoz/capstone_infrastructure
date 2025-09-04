@@ -26,6 +26,7 @@ module "compute" {
   web_desired_count     = 3
   user_data             = file("web-user-data.sh")
   web_sg_ids            = [module.network.web_sg_id]
+  web_instance_profile  = module.iam.web_instance_profile_name
 }
 
 module "database" {
@@ -35,4 +36,9 @@ module "database" {
   vpc_security_group_ids = [module.network.db_sg_id]
   db_username            = var.db_username
   db_password            = var.db_password
+}
+
+module "iam" {
+  source = "./modules/iam"
+  ecr_arn = module.compute.ecr_repository_arn
 }

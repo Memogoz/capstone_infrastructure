@@ -7,6 +7,10 @@ variable "web_ami_id" {
   type = string
 }
 
+variable "web_instance_profile" {
+  type    = string
+}
+
 variable "web_instance_type" {
   type    = string
   default = "t3.small"

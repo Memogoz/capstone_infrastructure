@@ -20,6 +20,7 @@ output "postgres_username" {
 
 output "postgres_password" {
   value = module.database.rds_password
+  sensitive = true
 }
 
 output "postgres_db_name" {
