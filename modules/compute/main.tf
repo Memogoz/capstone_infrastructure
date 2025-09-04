@@ -1,7 +1,7 @@
 # modules/compute/main.tf
 resource "aws_key_pair" "web_key" {
   key_name   = "web-instances-key"
-  public_key = file("keys/web-instances-key.pub")
+  public_key = file("~/aws-keys/web-instances-key.pub")
 }
 
 resource "aws_launch_template" "web_lt" {
@@ -10,6 +10,9 @@ resource "aws_launch_template" "web_lt" {
   instance_type          = var.web_instance_type
   user_data              = base64encode(var.user_data)
   vpc_security_group_ids = var.web_sg_ids
+  iam_instance_profile {
+    name = var.web_instance_profile
+  }
   key_name               = aws_key_pair.web_key.key_name
 }
 
