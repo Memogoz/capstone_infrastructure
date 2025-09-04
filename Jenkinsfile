@@ -61,7 +61,8 @@ pipeline {
         stage('Set up nodes with ansible') {
             steps {
                 echo 'Setting up nodes with Ansible...'
-                sh 'ansible-playbook -i ./Ansible/inventory.yml ./Ansible/docker-setup.yaml'
+                sh 'export PATH="$HOME/venv/bin:$PATH'
+                sh 'ANSIBLE_CONFIG=./Ansible/ansible.cfg ansible-playbook -i ./Ansible/inventory.aws_ec2.yaml ./Ansible/docker-setup.yaml'
             }
         }
         stage('Wait for destroy signal') {
