@@ -40,5 +40,5 @@ module "database" {
 
 module "iam" {
   source = "./modules/iam"
-  ecr_arn = module.compute.ecr_repository_url
+  ecr_arn = module.compute.ecr_repository_arn
 }
