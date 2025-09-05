@@ -61,7 +61,10 @@ pipeline {
         stage('Set up nodes with ansible') {
             steps {
                 echo 'Setting up nodes with Ansible...'
-                sh 'export PATH="$HOME/venv/bin:$PATH'
+                //sh 'export PATH=\\"$HOME/venv/bin:$PATH\\"'
+                sh 'source ~/venv/bin/activate'
+                sh 'which python3'
+                sh 'pip list'
                 sh 'ANSIBLE_CONFIG=./Ansible/ansible.cfg ansible-playbook -i ./Ansible/inventory.aws_ec2.yaml ./Ansible/docker-setup.yaml'
             }
         }

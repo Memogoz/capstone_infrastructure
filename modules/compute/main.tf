@@ -1,14 +1,19 @@
 # modules/compute/main.tf
 resource "aws_key_pair" "web_key" {
   key_name   = "web-instances-key"
-  public_key = file("~/aws-keys/web-instances-key.pub")
+  public_key = file("~/.aws-keys/web-instances-key.pub")
+}
+
+resource "aws_key_pair" "jenkins_worker_key" {
+  key_name = "jenkins-worker-key"
+  public_key = file("~/.aws-keys/jenkins-worker-key.pub")
 }
 
 resource "aws_launch_template" "web_lt" {
   name_prefix            = "${var.prefix}-template-instance"
   image_id               = var.web_ami_id
   instance_type          = var.web_instance_type
-  user_data              = base64encode(var.user_data)
+  user_data              = base64encode(var.web_user_data)
   vpc_security_group_ids = var.web_sg_ids
   iam_instance_profile {
     name = var.web_instance_profile
@@ -51,3 +56,18 @@ resource "aws_ecr_repository" "image_repository" {
     scan_on_push = true
   }
 }
+
+resource "aws_instance" "jenkins_worker" {
+  ami = var.jenkins_ami_id
+  instance_type = var.jenkins_instance_type
+  key_name = aws_key_pair.jenkins_worker_key.key_name
+  security_groups = var.jenkins_sg_ids
+  user_data = base64encode(var.jenkins_user_data)
+  subnet_id = var.subnet_id_for_jenkins
+  iam_instance_profile = var.jenkins_instance_profile
+  tags = {
+    Name = "${var.prefix}-jenkins-worker"
+    Role = "jenkins-worker"
+  }
+}
+

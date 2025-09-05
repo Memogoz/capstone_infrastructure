@@ -29,10 +29,34 @@ variable "web_desired_count" {
   default = 3
 }
 
-variable "user_data" {
+variable "web_user_data" {
   type = string
 }
 
 variable "web_sg_ids" {
   type = list(string)
+}
+
+variable "jenkins_ami_id" {
+  type = string
+}
+
+variable "jenkins_instance_type" {
+  type = string
+}
+
+variable "jenkins_sg_ids" {
+  type = list(string)
+}
+
+variable "jenkins_user_data" {
+  type = string
+}
+
+variable "subnet_id_for_jenkins" {
+  type = string
+}
+
+variable "jenkins_instance_profile" {
+  type = string
 }

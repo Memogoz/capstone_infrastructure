@@ -24,9 +24,15 @@ module "compute" {
   subnet_ids            = module.network.private_subnet_ids
   alb_target_group_arns = [module.alb.alb_target_group_arn]
   web_desired_count     = 3
-  user_data             = file("web-user-data.sh")
+  web_user_data         = file("web-user-data.sh")
   web_sg_ids            = [module.network.web_sg_id]
   web_instance_profile  = module.iam.web_instance_profile_name
+  jenkins_ami_id        = data.aws_ami.ubuntu.id
+  jenkins_instance_type = "t3.small"
+  jenkins_sg_ids        = [module.network.admin_nodes_sg_id]
+  jenkins_user_data     = file("jenkins-user-data.sh")
+  subnet_id_for_jenkins = module.network.private_subnet_ids[0]
+  jenkins_instance_profile = module.iam.jenkins_instance_profile_name
 }
 
 module "database" {
