@@ -63,11 +63,14 @@ pipeline {
                 echo 'Setting up nodes with Ansible...'
                 // sh 'export PATH=\\"$HOME/venv/bin:$PATH\\"'
                 sh '''
-                    sh source ~/venv/bin/activate
-                    sh which python3
-                    sh pip list
-                    sh ANSIBLE_CONFIG=./Ansible/ansible.cfg ansible-playbook -i ./Ansible/inventory.aws_ec2.yaml ./Ansible/docker-setup.yaml
+                    echo "Listing installed pip packages..."
+                    ~/venv/bin/pip list
+
+                    echo "Running Ansible playbook..."
+                    export ANSIBLE_CONFIG=./Ansible/ansible.cfg
+                    ~/venv/bin/ansible-playbook -i ./Ansible/inventory.aws_ec2.yaml ./Ansible/docker-setup.yaml
                 '''
+
                 }
         }
         stage('Wait for destroy signal') {

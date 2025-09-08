@@ -31,7 +31,7 @@ module "compute" {
   jenkins_instance_type = "t3.small"
   jenkins_sg_ids        = [module.network.admin_nodes_sg_id]
   jenkins_user_data     = file("jenkins-user-data.sh")
-  subnet_id_for_jenkins = module.network.private_subnet_ids[0]
+  subnet_id_for_jenkins = module.network.public_subnet_ids[0]
   jenkins_instance_profile = module.iam.jenkins_instance_profile_name
 }
 

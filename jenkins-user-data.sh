@@ -1,24 +1,21 @@
 #!/bin/bash
 
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 set -e
 
 # Jenkins directory
 sudo mkdir /var/jenkins
-sudo chown -R ubuntu:ununtu /var/jenkins
+sudo chown -R ubuntu:ubuntu /var/jenkins
 
 # APT
 apt update
 
 # Ansible
 apt install -y python3
-sudo apt install -y python3.12-venv
+sudo apt install -y python3-venv
 #apt install -y python3-pip
 python3 -m venv venv
-source venv/bin/activate
-pip install ansible
-pip install boto3 botocore
-pip install semver
-pip install docker #docker SDK for ansible playbooks
+./venv/bin/pip install ansible botocore semver docker #docker SDK for ansible playbooks
 
 # AWS CLI
 apt install -y unzip

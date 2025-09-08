@@ -2,6 +2,10 @@ output "ecr_repo_url" {
   value = module.compute.ecr_repository_url
 }
 
+output "jenkins_worker_ip" {
+  value = module.compute.jenkins_worker_ip
+}
+
 output "website_url" {
   value = module.alb.alb_dns_name
 }

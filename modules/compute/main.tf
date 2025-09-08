@@ -65,6 +65,10 @@ resource "aws_instance" "jenkins_worker" {
   user_data = base64encode(var.jenkins_user_data)
   subnet_id = var.subnet_id_for_jenkins
   iam_instance_profile = var.jenkins_instance_profile
+  ebs_block_device {
+    device_name = "/dev/xvda"
+    volume_size = 16
+  }
   tags = {
     Name = "${var.prefix}-jenkins-worker"
     Role = "jenkins-worker"
