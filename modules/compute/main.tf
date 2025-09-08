@@ -51,12 +51,14 @@ resource "aws_autoscaling_group" "web_asg" {
 resource "aws_ecr_repository" "image_repository" {
   name                 = "capstone-petclinic-images"
   image_tag_mutability = "MUTABLE"
+  force_delete = true
 
   image_scanning_configuration {
-    scan_on_push = true
+    scan_on_push = false
   }
 }
 
+/*
 resource "aws_instance" "jenkins_worker" {
   ami = var.jenkins_ami_id
   instance_type = var.jenkins_instance_type
@@ -74,4 +76,4 @@ resource "aws_instance" "jenkins_worker" {
     Role = "jenkins-worker"
   }
 }
-
+*/

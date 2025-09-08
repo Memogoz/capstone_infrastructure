@@ -129,7 +129,7 @@ resource "aws_security_group" "web_sg" { # Allow HTTP from ALB and SSH from admi
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.admin_nodes_sg.id]
+    cidr_blocks     = var.allowed_cidrs
     description     = "Allow SSH from admin nodes"
   }
 
@@ -165,6 +165,7 @@ resource "aws_security_group" "db_sg" { # Allow PostgreSQL traffic to web server
   tags = { Name = "${var.prefix}-db-sg" }
 }
 
+/*
 resource "aws_security_group" "admin_nodes_sg" { # Allow SSH to admin nodes [MAYBE THIS SG SHOULD BE PREVIUSLY CREATED]
   name        = "${var.prefix}-jenkins-nodes-sg"
   description = "Allow SSH from admin nodes"
@@ -183,3 +184,4 @@ resource "aws_security_group" "admin_nodes_sg" { # Allow SSH to admin nodes [MAY
   }
   tags = { Name = "${var.prefix}-admin-sg" }
 }
+*/

@@ -37,6 +37,7 @@ variable "web_sg_ids" {
   type = list(string)
 }
 
+/*
 variable "jenkins_ami_id" {
   type = string
 }
@@ -60,3 +61,4 @@ variable "subnet_id_for_jenkins" {
 variable "jenkins_instance_profile" {
   type = string
 }
+*/
