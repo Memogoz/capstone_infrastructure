@@ -5,7 +5,7 @@ resource "aws_key_pair" "web_key" {
 }
 
 resource "aws_key_pair" "jenkins_worker_key" {
-  key_name = "jenkins-worker-key"
+  key_name   = "jenkins-worker-key"
   public_key = file("~/.aws-keys/jenkins-worker-key.pub")
 }
 
@@ -18,7 +18,7 @@ resource "aws_launch_template" "web_lt" {
   iam_instance_profile {
     name = var.web_instance_profile
   }
-  key_name               = aws_key_pair.web_key.key_name
+  key_name = aws_key_pair.web_key.key_name
 }
 
 resource "aws_autoscaling_group" "web_asg" {
@@ -51,29 +51,23 @@ resource "aws_autoscaling_group" "web_asg" {
 resource "aws_ecr_repository" "image_repository" {
   name                 = "capstone-petclinic-images"
   image_tag_mutability = "MUTABLE"
-  force_delete = true
+  force_delete         = true
 
   image_scanning_configuration {
     scan_on_push = false
   }
 }
 
-/*
-resource "aws_instance" "jenkins_worker" {
-  ami = var.jenkins_ami_id
-  instance_type = var.jenkins_instance_type
-  key_name = aws_key_pair.jenkins_worker_key.key_name
-  security_groups = var.jenkins_sg_ids
-  user_data = base64encode(var.jenkins_user_data)
-  subnet_id = var.subnet_id_for_jenkins
-  iam_instance_profile = var.jenkins_instance_profile
-  ebs_block_device {
-    device_name = "/dev/xvda"
-    volume_size = 16
-  }
+
+resource "aws_instance" "bastion_host" {
+  ami             = var.bastion_ami_id
+  instance_type   = var.bastion_instance_type
+  key_name        = aws_key_pair.jenkins_worker_key.key_name
+  security_groups = var.bastion_sg_ids
+  subnet_id       = var.subnet_id_for_bastion
   tags = {
-    Name = "${var.prefix}-jenkins-worker"
-    Role = "jenkins-worker"
+    Name = "${var.prefix}-bastion"
+    Role = "bastion"
   }
 }
-*/
+

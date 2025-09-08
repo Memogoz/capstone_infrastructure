@@ -63,13 +63,24 @@ pipeline {
                 echo 'Setting up nodes with Ansible...'
                 // sh 'export PATH=\\"$HOME/venv/bin:$PATH\\"'
                 sh '''
-                    echo "Listing installed pip packages..."
-                    ~/venv/bin/pip list
+                    echo "Fetching Bastion IP..."
+                    BASTION_IP=$(aws ec2 describe-instances \
+                    --region ${params.AWS_REGION} \
+                    --filters "Name=tag:Role,Values=bastion" "Name=instance-state-name,Values=running" \
+                    --query "Reservations[].Instances[].PublicIpAddress" \
+                    --output text)
 
-                    echo "Running Ansible playbook..."
+                    echo "Running Ansible playbook using bastion at $BASTION_IP"
+
                     export ANSIBLE_CONFIG=./Ansible/ansible.cfg
-                    ~/venv/bin/ansible-playbook -i ./Ansible/inventory.aws_ec2.yaml ./Ansible/docker-setup.yaml
+
+                    ~/venv/bin/ansible-playbook \
+                    -i ./Ansible/inventory.aws_ec2.yaml \
+                    ./Ansible/docker-setup.yaml \
+                    --ssh-common-args='-o ProxyCommand="ssh -i ~/aws-keys/web-instances-key -W %h:%p -q ubuntu@'"$BASTION_IP"
                 '''
+
+
 
                 }
         }

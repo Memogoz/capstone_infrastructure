@@ -1,10 +1,10 @@
 # modules/network/main.tf
 
 resource "aws_vpc" "this" {
-  cidr_block = var.vpc_cidr
+  cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags       = { Name = "${var.prefix}-vpc" }
+  tags                 = { Name = "${var.prefix}-vpc" }
 }
 
 resource "aws_subnet" "private_a" {
@@ -126,11 +126,11 @@ resource "aws_security_group" "web_sg" { # Allow HTTP from ALB and SSH from admi
   }
 
   ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    cidr_blocks     = var.allowed_cidrs
-    description     = "Allow SSH from admin nodes"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_cidrs
+    description = "Allow SSH from admin nodes"
   }
 
   egress {
@@ -165,9 +165,9 @@ resource "aws_security_group" "db_sg" { # Allow PostgreSQL traffic to web server
   tags = { Name = "${var.prefix}-db-sg" }
 }
 
-/*
-resource "aws_security_group" "admin_nodes_sg" { # Allow SSH to admin nodes [MAYBE THIS SG SHOULD BE PREVIUSLY CREATED]
-  name        = "${var.prefix}-jenkins-nodes-sg"
+
+resource "aws_security_group" "bastion_node_sg" { # Allow SSH to admin nodes [MAYBE THIS SG SHOULD BE PREVIUSLY CREATED]
+  name        = "${var.prefix}-bastion-nodes-sg"
   description = "Allow SSH from admin nodes"
   vpc_id      = aws_vpc.this.id
   ingress {
@@ -182,6 +182,5 @@ resource "aws_security_group" "admin_nodes_sg" { # Allow SSH to admin nodes [MAY
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = { Name = "${var.prefix}-admin-sg" }
+  tags = { Name = "${var.prefix}-bastion-sg" }
 }
-*/

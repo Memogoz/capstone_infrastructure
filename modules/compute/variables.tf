@@ -8,7 +8,7 @@ variable "web_ami_id" {
 }
 
 variable "web_instance_profile" {
-  type    = string
+  type = string
 }
 
 variable "web_instance_type" {
@@ -37,28 +37,19 @@ variable "web_sg_ids" {
   type = list(string)
 }
 
-/*
-variable "jenkins_ami_id" {
+
+variable "bastion_ami_id" {
   type = string
 }
 
-variable "jenkins_instance_type" {
+variable "bastion_instance_type" {
   type = string
 }
 
-variable "jenkins_sg_ids" {
+variable "bastion_sg_ids" {
   type = list(string)
 }
 
-variable "jenkins_user_data" {
+variable "subnet_id_for_bastion" {
   type = string
 }
-
-variable "subnet_id_for_jenkins" {
-  type = string
-}
-
-variable "jenkins_instance_profile" {
-  type = string
-}
-*/
