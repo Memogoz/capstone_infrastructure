@@ -61,28 +61,27 @@ pipeline {
         stage('Set up nodes with ansible') {
             steps {
                 echo 'Setting up nodes with Ansible...'
-                // sh 'export PATH=\\"$HOME/venv/bin:$PATH\\"'
-                sh '''
-                    echo "Fetching Bastion IP..."
-                    BASTION_IP=$(aws ec2 describe-instances \
-                    --region ${params.AWS_REGION} \
-                    --filters "Name=tag:Role,Values=bastion" "Name=instance-state-name,Values=running" \
-                    --query "Reservations[].Instances[].PublicIpAddress" \
-                    --output text)
+                script {
+                    def region = params.AWS_REGION
+                    sh """
+                        echo "Fetching Bastion IP..."
+                        BASTION_IP=\$(aws ec2 describe-instances \
+                            --region ${region} \
+                            --filters "Name=tag:Role,Values=bastion" "Name=instance-state-name,Values=running" \
+                            --query "Reservations[].Instances[].PublicIpAddress" \
+                            --output text)
 
-                    echo "Running Ansible playbook using bastion at $BASTION_IP"
+                        echo "Running Ansible playbook using bastion at \$BASTION_IP"
 
-                    export ANSIBLE_CONFIG=./Ansible/ansible.cfg
+                        export ANSIBLE_CONFIG=./Ansible/ansible.cfg
 
-                    ~/venv/bin/ansible-playbook \
-                    -i ./Ansible/inventory.aws_ec2.yaml \
-                    ./Ansible/docker-setup.yaml \
-                    --ssh-common-args='-o ProxyCommand="ssh -i ~/aws-keys/web-instances-key -W %h:%p -q ubuntu@'"$BASTION_IP"
-                '''
-
-
-
+                        ~/venv/bin/ansible-playbook \
+                            -i ./Ansible/inventory.aws_ec2.yaml \
+                            ./Ansible/docker-setup.yaml \
+                            --ssh-common-args='-o ProxyCommand="ssh -i ~/aws-keys/web-instances-key -W %h:%p -q ubuntu@'\$BASTION_IP'"'
+                    """
                 }
+            }
         }
         stage('Wait for destroy signal') {
             steps {
