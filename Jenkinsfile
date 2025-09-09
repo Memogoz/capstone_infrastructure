@@ -78,7 +78,8 @@ pipeline {
                         ~/venv/bin/ansible-playbook \
                             -i ./Ansible/inventory.aws_ec2.yaml \
                             ./Ansible/docker-setup.yaml \
-                            --ssh-common-args='-o ProxyCommand="ssh -i ~/aws-keys/web-instances-key -W %h:%p -q ubuntu@'\$BASTION_IP'"'
+                            --ssh-common-args='-o ProxyCommand="ssh -i ~/.aws-keys/jenkins-worker-key -W %h:%p -q ubuntu@'\$BASTION_IP'"' \
+                            --private-key='~/.aws-keys/web-instances-key'
                     """
                 }
             }
