@@ -129,7 +129,7 @@ resource "aws_security_group" "web_sg" { # Allow HTTP from ALB and SSH from admi
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = var.allowed_cidrs
+    security_groups = [aws_security_group.bastion_node_sg.id]
     description = "Allow SSH from admin nodes"
   }
 
