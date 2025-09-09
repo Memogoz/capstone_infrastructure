@@ -126,11 +126,11 @@ resource "aws_security_group" "web_sg" { # Allow HTTP from ALB and SSH from admi
   }
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
     security_groups = [aws_security_group.bastion_node_sg.id]
-    description = "Allow SSH from admin nodes"
+    description     = "Allow SSH from admin nodes"
   }
 
   egress {

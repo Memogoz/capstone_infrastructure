@@ -27,7 +27,7 @@ module "compute" {
   web_user_data         = file("web-user-data.sh")
   web_sg_ids            = [module.network.web_sg_id]
   web_instance_profile  = module.iam.web_instance_profile_name
-  bastion_ami_id        = data.aws_ami.ubuntu.id
+  bastion_ami_id        = "ami-0bbdd8c17ed981ef9" # data.aws_ami.ubuntu.id
   bastion_instance_type = "t3.nano"
   bastion_sg_ids        = [module.network.bastion_node_sg_id]
   subnet_id_for_bastion = module.network.public_subnet_ids[0]
