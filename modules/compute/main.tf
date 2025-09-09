@@ -63,7 +63,7 @@ resource "aws_instance" "bastion_host" {
   ami             = var.bastion_ami_id
   instance_type   = var.bastion_instance_type
   key_name        = aws_key_pair.jenkins_worker_key.key_name
-  security_groups = var.bastion_sg_ids
+  vpc_security_group_ids = var.bastion_sg_ids
   subnet_id       = var.subnet_id_for_bastion
   tags = {
     Name = "${var.prefix}-bastion"
