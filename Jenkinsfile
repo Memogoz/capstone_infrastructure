@@ -79,7 +79,7 @@ pipeline {
                             -i ./Ansible/inventory.aws_ec2.yaml \
                             ./Ansible/docker-setup.yaml \
                             --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.aws-keys/jenkins-worker-key -W %h:%p -q ubuntu@\$BASTION_IP'" \
-                            --private-key=~/.aws-keys/web-instances-key
+                            --private-key=~/.aws-keys/web-instances-key || true
                     """
                 }
             }
