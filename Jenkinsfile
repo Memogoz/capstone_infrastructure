@@ -93,7 +93,9 @@ pipeline {
         stage('Destroy') {
             steps {
                 echo 'Destroying resources...'
-                sh 'terraform destroy -auto-approve'
+                sh """
+                    terraform destroy -auto-approve -var "aws_region=${params.AWS_REGION}"
+                """
             }
         }
     }
